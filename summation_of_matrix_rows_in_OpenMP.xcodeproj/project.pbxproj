@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		FE130041218990520030A124 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FE130040218990520030A124 /* main.cpp */; };
+		FE1300492189929A0030A124 /* libomp.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FE1300482189929A0030A124 /* libomp.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,7 @@
 /* Begin PBXFileReference section */
 		FE13003D218990520030A124 /* summation_of_matrix_rows_in_OpenMP */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = summation_of_matrix_rows_in_OpenMP; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE130040218990520030A124 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		FE1300482189929A0030A124 /* libomp.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libomp.dylib; path = ../../../../../../usr/local/Cellar/llvm/7.0.0/lib/libomp.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE1300492189929A0030A124 /* libomp.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,6 +46,7 @@
 			children = (
 				FE13003F218990520030A124 /* summation_of_matrix_rows_in_OpenMP */,
 				FE13003E218990520030A124 /* Products */,
+				FE130047218992990030A124 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,6 +64,14 @@
 				FE130040218990520030A124 /* main.cpp */,
 			);
 			path = summation_of_matrix_rows_in_OpenMP;
+			sourceTree = "<group>";
+		};
+		FE130047218992990030A124 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FE1300482189929A0030A124 /* libomp.dylib */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -170,16 +182,19 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				GCC_VERSION = "/usr/local/Cellar/llvm/7.0.0/bin/clang++";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/local/include/;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_OSACOMPILEFLAGS = "-fopenmp";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -223,15 +238,18 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_VERSION = "/usr/local/Cellar/llvm/7.0.0/bin/clang++";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/local/include/;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_OSACOMPILEFLAGS = "-fopenmp";
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -241,6 +259,13 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3KRK236DU7;
+				GCC_VERSION = "/usr/local/Cellar/llvm/7.0.0/bin/clang++";
+				HEADER_SEARCH_PATHS = /usr/local/include/;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/llvm/7.0.0/lib,
+				);
+				OTHER_OSACOMPILEFLAGS = "-fopenmp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -250,6 +275,13 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3KRK236DU7;
+				GCC_VERSION = "/usr/local/Cellar/llvm/7.0.0/bin/clang++";
+				HEADER_SEARCH_PATHS = /usr/local/include/;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/llvm/7.0.0/lib,
+				);
+				OTHER_OSACOMPILEFLAGS = "-fopenmp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
