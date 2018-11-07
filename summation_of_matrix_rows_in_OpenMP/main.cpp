@@ -54,7 +54,7 @@ void sumInCP(std::vector<float>& mat, const int r, const int c, std::vector<floa
         res[i] = sum;
     }
     double t2 = omp_get_wtime();
-    std::cout << "Время на ЦП: " << t2-t1 << std::endl; // выводим время в милисекундах
+    std::cout << "Время последовательно: " << t2-t1 << std::endl; // выводим время в милисекундах
 }
 
 void sumInCPOMP(std::vector<float>& mat, const int r, const int c, std::vector<float>& res) {
@@ -68,9 +68,9 @@ void sumInCPOMP(std::vector<float>& mat, const int r, const int c, std::vector<f
             for (int j = 0; j < c; j++) {
                 sum += mat[cr + j];
             }
-            res[i] = sum;
+            res[i * 100 + k] = sum;
         }
     }
     double t2 = omp_get_wtime();
-    std::cout << res[rand() % res.size()] << " Время на ЦП openmp: " << t2-t1 << std::endl; // выводим время в милисекундах
+    std::cout << res[rand() % res.size()] << " Время параллельно: " << t2-t1 << std::endl; // выводим время в милисекундах
 }
