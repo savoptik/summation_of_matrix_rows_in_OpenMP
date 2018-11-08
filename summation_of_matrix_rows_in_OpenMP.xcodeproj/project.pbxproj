@@ -27,6 +27,7 @@
 		FE13003D218990520030A124 /* summation_of_matrix_rows_in_OpenMP */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = summation_of_matrix_rows_in_OpenMP; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE130040218990520030A124 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		FE1300482189929A0030A124 /* libomp.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libomp.dylib; path = ../../../../../../usr/local/Cellar/llvm/7.0.0/lib/libomp.dylib; sourceTree = "<group>"; };
+		FE203407219447F20001314F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +45,7 @@
 		FE130034218990520030A124 = {
 			isa = PBXGroup;
 			children = (
+				FE203407219447F20001314F /* README.md */,
 				FE13003F218990520030A124 /* summation_of_matrix_rows_in_OpenMP */,
 				FE13003E218990520030A124 /* Products */,
 				FE130047218992990030A124 /* Frameworks */,
