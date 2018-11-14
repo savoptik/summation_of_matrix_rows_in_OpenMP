@@ -60,12 +60,13 @@ void sumInCP(std::vector<float>& mat, const int r, const int c, std::vector<floa
 void sumInCPOMP(std::vector<float>& mat, const int r, const int c, std::vector<float>& res) {
     srand(static_cast<int>(100));
     double t1 = omp_get_wtime();
-#pragma omp parallel for
+#pragma omp parallel for num_threads(16)
     for (int i = 0; i < 1000; i++) { // гнездуем циклы для повышения производительности
         for (int k = 0; k < 100; k++) {
             float sum = 0;
-            int cr = (i * 100 + k) * c;
-            for (int j = 0; j < c; j++) {
+            int cr = (i * 100 + k) * 960;
+#pragma omp simd
+            for (int j = 0; j < 960; j++) {
                 sum += mat[cr + j];
             }
             res[i * 100 + k] = sum;
