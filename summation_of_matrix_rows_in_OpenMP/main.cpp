@@ -18,17 +18,20 @@ void matrixGeneration(std::vector<float>& vec); // функция генерир
 void sumInCP(float *mat, const int r, const int c, std::vector<float>& res); // функция суммирует строки на процессоре
 void sumInCPOMP(float *mat, const int r, const int c, std::vector<float>& res);
 void sumInCPOMKL(float *mat, const int r, const int c, float *res);
+void sumInCPOMKL2(float *mat, const int r, const int c, float *res);
 
 int main(int argc, const char * argv[]) {
-    std::vector<float> matrix, res1, res2, res3; // вектор матрицы и векторы результатов
+    std::vector<float> matrix, res1, res2, res3, res4; // вектор матрицы и векторы результатов
     matrix.resize(cols * rows); // выделяем память для матрицы
     res1.resize(rows); // выделяем память для первого массива результатов.
     res2.resize(rows); // выделяем память для второго массива результатов
     res3.resize(rows);
+    res4.resize(rows);
     matrixGeneration(matrix); // генирируем матрицу случайных чисел
     sumInCP(matrix.data(), rows, cols, res1); // выполняем суммирование на процессоре.
     sumInCPOMP(matrix.data(), rows, cols, res2); // выполняем суммирование на openmp
     sumInCPOMKL(matrix.data(), rows, cols, res3.data());
+    sumInCPOMKL2(matrix.data(), rows, cols, res4.data());
     // сверяемся
     long good = 0;
     for (int i = 0; i < res2.size(); i++) {
@@ -44,13 +47,20 @@ int main(int argc, const char * argv[]) {
     if (good == rows) {
         std::cout << "Всё хорошо\n";
     } else std::cout << "Что-то пошло не так\n";
+    good = 0;
+    for (int i = 0; i < res4.size(); i++) {
+        good = res4[i] == res1[i] ? good+1: good;
+    }
+    if (good == rows) {
+        std::cout << "Всё хорошо\n";
+    } else std::cout << "Что-то пошло не так\n";
     return 0;
 }
 
 void matrixGeneration(std::vector<float>& vec) {
     srand(static_cast<int>(100));
     for (int i = 0; i < vec.size(); i++) { // идём по массиву
-        double r = double((rand() % 200)/ 100 - 1);
+        float r = rand() % 3 - 1;
         vec[i] = r; // заполняем его случайными числами
     }
 }
@@ -90,12 +100,39 @@ void sumInCPOMP(float *mat, const int r, const int c, std::vector<float>& res) {
 void sumInCPOMKL(float *mat, const int r, const int c, float *res) {
     srand(static_cast<int>(100));
     std::vector<float> ones;
-    ones.resize(r);
+    ones.resize(c);
     for (int i = 0; i < c; i++) {
         ones[i] = 1;
     }
     double t1 = omp_get_wtime();
-    dgemv('t', cols, rows, 1, mat, cols, ones.data(), 1, 0, res, 1);
+    int one = 1, zero = 0;
+    float onef = 1, zerof = 0;
+    sgemv("t", &c, &r, &onef, mat, &c, ones.data(), &one, &zerof, res, &one);
     double t2 = omp_get_wtime();
-    std::cout << res[rand() % r] << " Время на ЛКМ: " << t2-t1 << std::endl; // выводим время в милисекундах
+    std::cout << res[rand() % r] << " Время на МКЛ: " << t2-t1 << std::endl; // выводим время в милисекундах
 }
+
+void sumInCPOMKL2(float *mat, const int r, const int c, float *res) {
+    srand(static_cast<int>(100));
+    std::vector<float> ones;
+    ones.resize(c);
+    for (int i = 0; i < c; i++) {
+        ones[i] = 1;
+    }
+    int one = 1, zero = 0, part = 100000/250;
+    float onef = 1, zerof = 0;
+    double t1 = omp_get_wtime();
+#pragma omp parallel for num_threads(240)
+    for (int i = 0; i < r/part; i++) {
+        sgemv("t", &c, &part, &onef, mat + (i * c) * part, &c, ones.data(), &one, &zerof, res + i * part, &one);
+    }
+    double t2 = omp_get_wtime();
+    std::cout << res[rand() % r] << " Время на МКЛ по кускам: " << t2-t1 << std::endl; // выводим время в милисекундах
+}
+
+/*
+void dgemv_(char* TRANS, const int* M, const int* N,
+            double* alpha, double* A, const int* LDA, double* X,
+            const int* INCX, double* beta, double* C, const int* INCY);
+}
+*/
